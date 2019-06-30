@@ -1,0 +1,17 @@
+{
+  "name": "admin-materialdesign",
+  "version": "1.0.7",
+  "description": "Admin panel that is based on Bootstrap 3.x with Material Design",
+  "main": "js/admin.js",
+  "scripts": {},
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "author": "vishal",
+  "license": "",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": ""
+}
