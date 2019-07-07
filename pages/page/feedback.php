@@ -1,4 +1,43 @@
-﻿<!DOCTYPE html>
+﻿<?php
+   session_start();
+?>
+
+<?php
+  $servername="localhost";
+  $username="root";
+  $password="";
+  $db="admin";
+
+$conn = new mysqli($servername, $username, $password, $db);
+
+if(isset($_POST['submit']))
+{
+    $q_one=implode('<br>',$_POST['q_one']);
+    $q_two=implode('<br>',$_POST['q_two']);
+    $q_three=implode('<br>',$_POST['q_three']);
+    $q_four=$_POST['q_four'];
+    $q_five=implode('<br>',$_POST['q_five']);
+    $a_five=$_POST['a_five'];
+
+
+    $sql=$conn->query("INSERT INTO users(q_one, q_two, q_three, q_four, q_five, a_five)
+                       values('$q_one', '$q_two', '$q_three', '$q_four', '$q_five', '$a_five')");
+
+    if($sql>0)
+    {
+        echo "Data is Submited";
+        header("location: feedback.php");
+    }
+    else {
+        echo "<script> alert('Data is not submited')</script>";
+    }
+}
+?>
+
+
+
+
+<!DOCTYPE html>
 <html>
 
 <head>
@@ -79,36 +118,51 @@
         <div class="container-fluid signup-box">
             <div class="logo">
                 <a href="javascript:void(0);">hi<b>5</b></a>
-                <small>Welcome User</small>
+                <small>Welcome 
+                    <?php
+                        if($_SESSION['loggedInu']===true)
+                        {
+                            echo $_SESSION['userDetails']['first_name'];
+                            echo "<br>";
+                            echo $_SESSION['userDetails']['email'];
+                        }
+                        else {
+                            header('Location: emp-login.php');
+                        }
+                       ?>
+                </small>
             </div>
             
                 
-            <form>
+            <form action="" method="POST">
                 <div class="row clearfix">
                     <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                         <div class="card">
                             <div class="header">
                                 <h2>Feedback Form</h2>
-                                <small>02/07/2019</small>
+                                <small><?php
+                                           echo date("Y-m-d"). " - " .date("l")." - " .date("h:i:sa");
+                                        ?>
+                                </small>
                             </div>
                 
                             <div class="body">
                 
                                 <h2 class="card-inside-title">Reviewed high risks jobs?</h2>
                                 <div class="demo-checkbox">
-                                    <input type="checkbox" id="md_checkbox_29" class="filled-in chk-col-teal" />
+                                    <input type="checkbox" name="q_one[]" value="1.All high risk jobs closed. " id="md_checkbox_29" class="filled-in chk-col-teal" />
                                     <label for="md_checkbox_29">All high risk jobs closed.</label>
                                 </div>
                                 <div class="demo-checkbox">
-                                    <input type="checkbox" id="md_checkbox_21" class="filled-in chk-col-red" />
+                                    <input type="checkbox" name="q_one[]" value="2.One high risk job ongoing. " id="md_checkbox_21" class="filled-in chk-col-red" />
                                     <label for="md_checkbox_21">One high risk job ongoing</label>
                                 </div>
                                 <div class="demo-checkbox">
-                                    <input type="checkbox" id="md_checkbox_26" class="filled-in chk-col-blue" />
+                                    <input type="checkbox" name="q_one[]" value="3.Multiple high risk jobs ongoing. " id="md_checkbox_26" class="filled-in chk-col-blue" />
                                     <label for="md_checkbox_26">Multiple high risk jobs ongoing</label>
                                 </div>
                                 <div class="demo-checkbox">
-                                    <input type="checkbox" id="md_checkbox_39" class="filled-in chk-col-blue-grey" />
+                                    <input type="checkbox" name="q_one[]" value="4.Day ahead planning for high risk jobs done. " id="md_checkbox_39" class="filled-in chk-col-blue-grey" />
                                     <label for="md_checkbox_39">Day ahead planning for high risk jobs done.</label>
                                 </div>
                 
@@ -116,19 +170,19 @@
                 
                                 <h2 class="card-inside-title">Visited all planned maintenance jobs?</h2>
                                 <div class="demo-checkbox">
-                                    <input type="checkbox" id="md_checkbox_27" class="filled-in chk-col-light-blue" />
-                                    <label for="md_checkbox_27">All jobs carried out safely</label>
+                                    <input type="checkbox" name="q_two[]" value="1.All jobs carried out safely. " id="md_checkbox_27" class="filled-in chk-col-light-blue" />
+                                    <label for="md_checkbox_27">All jobs carried out safely.</label>
                                 </div>
                                 <div class="demo-checkbox">
-                                    <input type="checkbox" id="md_checkbox_33" class="filled-in chk-col-yellow" />
+                                    <input type="checkbox" name="q_two[]" value="2.One job had few safety lapses. " id="md_checkbox_33" class="filled-in chk-col-yellow" />
                                     <label for="md_checkbox_33">One job had few safety lapses.</label>
                                 </div>
                                 <div class="demo-checkbox">
-                                    <input type="checkbox" id="md_checkbox_24" class="filled-in chk-col-deep-purple" />
+                                    <input type="checkbox" name="q_two[]" value="3.More than one job had safety lapses. " id="md_checkbox_24" class="filled-in chk-col-deep-purple" />
                                     <label for="md_checkbox_24">More than one job had safety lapses.</label>
                                 </div>
                                 <div class="demo-checkbox">
-                                    <input type="checkbox" id="md_checkbox_28" class="filled-in chk-col-cyan" />
+                                    <input type="checkbox" name="q_two[]" value="4.There was an incident in one of the jobs. " id="md_checkbox_28" class="filled-in chk-col-cyan" />
                                     <label for="md_checkbox_28">There was an incident in one of the jobs.</label>
                                 </div>
                 
@@ -136,19 +190,19 @@
                 
                                 <h2 class="card-inside-title">Manpower planning in the evening shift?</h2>
                                 <div class="demo-checkbox">
-                                    <input type="checkbox" id="md_checkbox_32" class="filled-in chk-col-lime" />
-                                    <label for="md_checkbox_32">Adequate manpower is available</label>
+                                    <input type="checkbox" name="q_three[]" value="1.Adequate manpower is available. " id="md_checkbox_32" class="filled-in chk-col-lime" />
+                                    <label for="md_checkbox_32">Adequate manpower is available.</label>
                                 </div>
                                 <div class="demo-checkbox">
-                                    <input type="checkbox" id="md_checkbox_25" class="filled-in chk-col-indigo" />
-                                    <label for="md_checkbox_25">One manpower is shortage</label>
+                                    <input type="checkbox" name="q_three[]" value="2.One manpower is shortage." id="md_checkbox_25" class="filled-in chk-col-indigo" />
+                                    <label for="md_checkbox_25">One manpower is shortage.</label>
                                 </div>
                                 <div class="demo-checkbox">
-                                    <input type="checkbox" id="md_checkbox_38" class="filled-in chk-col-grey" />
-                                    <label for="md_checkbox_38">Two manpower is shortage</label>
+                                    <input type="checkbox" name="q_three[]" value="3.Two manpower is shortage. " id="md_checkbox_38" class="filled-in chk-col-grey" />
+                                    <label for="md_checkbox_38">Two manpower is shortage.</label>
                                 </div>
                                 <div class="demo-checkbox">
-                                    <input type="checkbox" id="md_checkbox_35" class="filled-in chk-col-orange" />
+                                    <input type="checkbox" name="q_three[]" value="4.No manpower is available in the shift. " id="md_checkbox_35" class="filled-in chk-col-orange" />
                                     <label for="md_checkbox_35">No manpower is available in the shift.</label>
                                 </div>
                 
@@ -161,7 +215,7 @@
                                     <div class="col-sm-12">
                                         <div class="form-group">
                                             <div class="form-line">
-                                                <textarea rows="4" class="form-control no-resize" placeholder="Please type Work Details..."></textarea>
+                                                <textarea rows="4" name="q_four" class="form-control no-resize" placeholder="Please type Work Details..."></textarea>
                                             </div>
                                         </div>
                                     </div>
@@ -170,20 +224,20 @@
                 
                                 <h2 class="card-inside-title">I have done Safety Audit for:</h2>
                                 <div class="demo-checkbox">
-                                    <input type="checkbox" id="md_checkbox_22" class="filled-in chk-col-pink" />
-                                    <label for="md_checkbox_22">High risk jobs</label>
+                                    <input type="checkbox" name="q_five[]" value="1.High risk jobs. " id="md_checkbox_22" class="filled-in chk-col-pink" />
+                                    <label for="md_checkbox_22">High risk jobs.</label>
                                 </div>
                 
                                 <div class="demo-checkbox">
-                                    <input type="checkbox" id="md_checkbox_37" class="filled-in chk-col-brown" />
-                                    <label for="md_checkbox_37">Medium risk jobs</label>
+                                    <input type="checkbox" name="q_five[]" value="2.Medium risk jobs. " id="md_checkbox_37" class="filled-in chk-col-brown" />
+                                    <label for="md_checkbox_37">Medium risk jobs.</label>
                                 </div>
                                 <div class="demo-checkbox">
-                                    <input type="checkbox" id="md_checkbox_34" class="filled-in chk-col-amber" />
+                                    <input type="checkbox" name="q_five[]" value="3.Safety observation uploaded in SAP. " id="md_checkbox_34" class="filled-in chk-col-amber" />
                                     <label for="md_checkbox_34">Safety observation uploaded in SAP.</label>
                                 </div>
                                 <div class="demo-checkbox">
-                                    <input type="checkbox" id="md_checkbox_36" class="filled-in chk-col-deep-orange" />
+                                    <input type="checkbox" name="q_five[]" value="4.5S observation made and communicated to Gemba owned. " id="md_checkbox_36" class="filled-in chk-col-deep-orange" />
                                     <label for="md_checkbox_36">5S observation made and communicated to
                                     Gemba owned.</label>
                                 </div>
@@ -191,12 +245,12 @@
                                 <small>Explain :-</small>
                                 <div class="form-group">
                                     <div class="form-line">
-                                        <textarea rows="1" class="form-control no-resize auto-growth"
+                                        <textarea rows="1" name="a_five" class="form-control no-resize auto-growth"
                                             placeholder="Please type...."></textarea>
                                     </div>
                                 </div>
 
-                                <button class="btn btn-lg bg-teal waves-effect" type="submit">SUBMIT</button>
+                                <button name="submit" class="btn btn-lg bg-teal waves-effect" type="submit">SUBMIT</button>
                             </div>
                         </div>
                     </div>
