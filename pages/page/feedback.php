@@ -3,10 +3,7 @@
 ?>
 
 <?php
-  $servername="localhost";
-  $username="root";
-  $password="";
-  $db="admin";
+   include 'db.php';
 
 $conn = new mysqli($servername, $username, $password, $db);
 

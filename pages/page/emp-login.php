@@ -61,10 +61,7 @@
 
 
      //Connect To Database
-     $servername="localhost";
-     $username="root";
-     $password="";
-     $db="admin";
+     include 'db.php';
 
      if($status)
      {
